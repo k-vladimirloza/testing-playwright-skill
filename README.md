@@ -18,10 +18,21 @@ mecanismo):
 /plugin install playwright-ai-testing@testing-playwright-skill
 ```
 
-Para actualizar a una versión más nueva del plugin: vuelve a correr
-`/plugin marketplace add ...` (refresca el marketplace) y luego
-`/plugin install ...` de nuevo, o usa `/plugin` para ver el menú de
-gestión.
+## Actualizar
+
+No existe un comando que se auto-actualice — un plugin no puede disparar
+su propia reinstalación (limitación de la plataforma). Para actualizar a
+la última versión:
+
+```
+/plugin marketplace update testing-playwright-skill
+/plugin install playwright-ai-testing@testing-playwright-skill
+```
+
+El plugin incluye `/playwright-ai-testing:update`, que revisa la versión
+instalada contra la publicada en GitHub y te recuerda esos dos comandos
+exactos — no actualiza por sí solo, solo te dice si hace falta y qué
+correr.
 
 ## Usar
 
@@ -43,6 +54,7 @@ esté instalado globalmente como cliente de exploración. Ver el paso 0 de
 .claude-plugin/
   plugin.json                       manifest del plugin
   marketplace.json                  manifest del marketplace (este mismo repo)
+commands/update.md                  /playwright-ai-testing:update (revisa version, no auto-actualiza)
 skills/playwright-ai-testing/
   SKILL.md                          instrucciones de la skill
   assets/scaffold/                  plantillas que se copian al workspace de pruebas
