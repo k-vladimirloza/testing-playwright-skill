@@ -2,6 +2,7 @@
 name: playwright-ai-testing
 description: Convierte una instrucción en lenguaje natural sobre un flujo web ("prueba que un visitante puede...", "verifica que funciona...") en una prueba Playwright repetible, explorando la interfaz real con el MCP de Playwright y persistiéndola como archivo .spec.ts versionable. Pensada para un usuario que no programa. Invócala explícitamente (por nombre o /playwright-ai-testing) cuando quieras probar/verificar/automatizar un flujo web, o guardar un flujo ya explorado en vivo como prueba automática.
 disable-model-invocation: true
+argument-hint: [ruta-del-workspace-de-pruebas]
 ---
 
 # Playwright AI Testing
@@ -17,10 +18,47 @@ Esta skill **nunca inicializa Node ni escribe archivos dentro del repo del
 producto** que se está probando. Las pruebas viven en un workspace de
 Playwright aparte, en una carpeta que el usuario elige.
 
-1. **Pregunta siempre dónde alojar las pruebas de este proyecto** — no
-   asumas ni reutilices una ruta de otra conversación, aunque sea el
-   mismo proyecto de antes: "¿En qué carpeta guardo y corro las pruebas
-   de este proyecto? (por ejemplo `~/pruebas-oasis-web`, fuera del repo)".
+**Gate obligatorio — no se puede saltar:** no ejecutes ningún paso de las
+secciones 1, 3, 4, 5 o 6 (explorar, generar, ejecutar, ofrecer guardar)
+sin una ruta de carpeta **explícita y confirmada por el usuario en esta
+misma conversación**. "Explícita" significa una ruta concreta que el
+usuario escribió (por chat, como argumento al invocar la skill, o en un
+mensaje previo de esta misma conversación) — nunca:
+
+- el directorio de trabajo actual por defecto,
+- una ruta de otra conversación o proyecto, aunque sea el mismo repo,
+- una ruta que "parece razonable" o que infieres del nombre del proyecto,
+- avanzar "mientras tanto" asumiendo que se confirmará después.
+
+Si no la tienes todavía, tu único paso permitido es preguntarla y
+esperar la respuesta — no exploras, no generas, no corres nada antes de
+tenerla.
+
+**Contención de escritura — sin excepciones:** una vez confirmada la
+ruta, todo archivo que esta skill cree, edite o borre debe quedar dentro
+de esa carpeta (subárbol incluido). Antes de cualquier escritura (crear
+un `.spec.ts`, correr `npm init`/`npm install`, editar `INDEX.md` o
+`.gitignore`, guardar una sesión `storageState`, lo que sea), verifica
+que la ruta resuelta es un descendiente de la carpeta confirmada. Si el
+cálculo de una ruta da algo fuera de ella — por una ruta relativa mal
+resuelta, un typo, o porque el paso actual es en el repo del producto —
+detente y repórtalo en vez de escribir. La única excepción es la
+instalación global de `playwright-cli` (paso 2: `npm install -g`), que
+no es un archivo de proyecto — ninguna otra instalación ni escritura
+global está permitida. Explorar la web real (MCP o `playwright-cli`) y
+leer el repo del producto para identificar componentes sí ocurre fuera
+de esta carpeta, porque no escribe nada ahí — la contención es sobre
+escritura, no sobre navegación ni lectura.
+
+1. **Si el usuario ya dio la ruta**, ya sea como argumento al invocar la
+   skill (`$ARGUMENTS` — ej. `/playwright-ai-testing ~/pruebas-oasis-web`)
+   o escrita en su mensaje, esa cuenta como confirmación explícita — no
+   la repreguntes, solo confírmasela de vuelta en un paso (punto 4). Si
+   `$ARGUMENTS` viene vacío y tampoco la dio en el mensaje, pregunta:
+   "¿En qué carpeta guardo y corro las pruebas de este proyecto? (por
+   ejemplo `~/pruebas-oasis-web`, fuera del repo)" — y no asumas ni
+   reutilices una ruta de otra conversación, aunque sea el mismo
+   proyecto de antes.
 2. **Asegura el cliente global de Playwright CLI** (para explorar, sin
    tocar ningún proyecto): `playwright-cli --version`. Si falla:
    `npm install -g @playwright/cli@latest`. Se instala una sola vez por

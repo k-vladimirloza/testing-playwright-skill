@@ -39,8 +39,15 @@ correr.
 **Solo se activa si el usuario lo pide explícitamente** (`disable-model-invocation: true`
 en `SKILL.md`) — Claude Code no la dispara sola por coincidencia de
 descripción, aunque el pedido suene a "prueba que...", "verifica que
-funciona...". Pídela por nombre (`playwright-ai-testing`) o con
-`/playwright-ai-testing`.
+funciona...". Pídela por nombre (`playwright-ai-testing`), con
+`/playwright-ai-testing`, o pasando directo la ruta del workspace como
+argumento: `/playwright-ai-testing ~/pruebas-oasis-web`.
+
+**No puede avanzar sin esa ruta confirmada, y no puede escribir fuera de
+ella.** Si no se la das como argumento, la pregunta antes de hacer nada
+más; y una vez confirmada, todo archivo que cree o edite (specs,
+`INDEX.md`, config, sesiones de login) queda contenido en esa carpeta —
+nunca en el repo del producto, nunca en otro lado.
 
 **Nunca toca el repo del producto.** En cada conversación pregunta dónde
 alojar y correr las pruebas de ese proyecto (una carpeta fuera del repo,
