@@ -77,13 +77,13 @@ escritura, no sobre navegación ni lectura.
      `testDir`/`baseURL` a la web real que se va a probar).
    - Agrega las líneas de `assets/scaffold/gitignore-snippet.txt` al
      `.gitignore` de ese workspace (no del repo del producto).
-   - Copia `assets/scaffold/AGENTS.md` y `assets/scaffold/CLAUDE.md` a la
-     raíz de ese workspace **solo si no existen ya**. En `AGENTS.md`,
-     completa "Proyecto que prueba" y "Entorno objetivo (`BASE_URL`)"
-     con los datos reales de este flujo — así cualquier agente o persona
-     que abra esa carpeta después sabe qué es sin preguntarte a ti.
+   - Copia `assets/scaffold/CLAUDE.md` a la raíz de ese workspace **solo
+     si no existe ya**. Completa ahí "Proyecto que prueba" y "Entorno
+     objetivo (`BASE_URL`)" con los datos reales de este flujo — así
+     cualquier agente o persona que abra esa carpeta después sabe qué es
+     sin preguntarte a ti.
 4. Confirma en una frase simple: "Voy a guardar y correr las pruebas
-   desde '<ruta>' — tu proyecto no se toca. Ahí dejé un `AGENTS.md` que
+   desde '<ruta>' — tu proyecto no se toca. Ahí dejé un `CLAUDE.md` que
    explica esta carpeta si alguien más la abre."
 5. Todo comando de la sección 1 (generar, ejecutar, reportar) corre
    **desde esa carpeta**, nunca desde el repo del producto.
