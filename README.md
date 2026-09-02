@@ -63,6 +63,8 @@ skills/playwright-ai-testing/
     tests/support/README.md         explica la convencion de helpers
     playwright.config.ts            config por defecto si el workspace no tiene una
     gitignore-snippet.txt           lineas a agregar al .gitignore del workspace
+    AGENTS.md                       instrucciones del workspace (que proyecto prueba, convenciones, correr sin el agente)
+    CLAUDE.md                       apunta a AGENTS.md, mismo patron que playwright-ai-harness
 ```
 
 ## Validar localmente (antes de publicar cambios)

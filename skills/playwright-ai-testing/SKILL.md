@@ -30,15 +30,22 @@ Playwright aparte, en una carpeta que el usuario elige.
      ahí — nunca en el repo del producto:
      `npm init -y && npm install -D @playwright/test && npx playwright install chromium`.
    - Copia el andamiaje de esta skill a esa carpeta (no al repo del
-     producto): `assets/scaffold/tests/generated/INDEX.md`,
+     producto), solo lo que falte — nunca sobrescribas algo que ya
+     existe de una sesión anterior: `assets/scaffold/tests/generated/INDEX.md`,
      `assets/scaffold/tests/generated/.gitkeep`,
      `assets/scaffold/tests/support/README.md`, y
      `assets/scaffold/playwright.config.ts` si no existe uno ya (ajusta
      `testDir`/`baseURL` a la web real que se va a probar).
    - Agrega las líneas de `assets/scaffold/gitignore-snippet.txt` al
      `.gitignore` de ese workspace (no del repo del producto).
+   - Copia `assets/scaffold/AGENTS.md` y `assets/scaffold/CLAUDE.md` a la
+     raíz de ese workspace **solo si no existen ya**. En `AGENTS.md`,
+     completa "Proyecto que prueba" y "Entorno objetivo (`BASE_URL`)"
+     con los datos reales de este flujo — así cualquier agente o persona
+     que abra esa carpeta después sabe qué es sin preguntarte a ti.
 4. Confirma en una frase simple: "Voy a guardar y correr las pruebas
-   desde '<ruta>' — tu proyecto no se toca."
+   desde '<ruta>' — tu proyecto no se toca. Ahí dejé un `AGENTS.md` que
+   explica esta carpeta si alguien más la abre."
 5. Todo comando de la sección 1 (generar, ejecutar, reportar) corre
    **desde esa carpeta**, nunca desde el repo del producto.
 
