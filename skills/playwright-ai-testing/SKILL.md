@@ -1,6 +1,7 @@
 ---
 name: playwright-ai-testing
-description: Convierte una instrucción en lenguaje natural sobre un flujo web ("prueba que un visitante puede...", "verifica que funciona...") en una prueba Playwright repetible, explorando la interfaz real con el MCP de Playwright y persistiéndola como archivo .spec.ts versionable. Pensada para un usuario que no programa. Úsala cuando pidan probar/verificar/automatizar un flujo web, o cuando ya se exploró un flujo en vivo y conviene ofrecer guardarlo como prueba automática.
+description: Convierte una instrucción en lenguaje natural sobre un flujo web ("prueba que un visitante puede...", "verifica que funciona...") en una prueba Playwright repetible, explorando la interfaz real con el MCP de Playwright y persistiéndola como archivo .spec.ts versionable. Pensada para un usuario que no programa. Invócala explícitamente (por nombre o /playwright-ai-testing) cuando quieras probar/verificar/automatizar un flujo web, o guardar un flujo ya explorado en vivo como prueba automática.
+disable-model-invocation: true
 ---
 
 # Playwright AI Testing

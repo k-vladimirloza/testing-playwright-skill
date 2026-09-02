@@ -36,9 +36,11 @@ correr.
 
 ## Usar
 
-Claude Code la invoca sola cuando el pedido calza con su descripción
-("prueba que...", "verifica que funciona...", "automatiza este flujo"), o
-explícitamente pidiendo la skill `playwright-ai-testing`.
+**Solo se activa si el usuario lo pide explícitamente** (`disable-model-invocation: true`
+en `SKILL.md`) — Claude Code no la dispara sola por coincidencia de
+descripción, aunque el pedido suene a "prueba que...", "verifica que
+funciona...". Pídela por nombre (`playwright-ai-testing`) o con
+`/playwright-ai-testing`.
 
 **Nunca toca el repo del producto.** En cada conversación pregunta dónde
 alojar y correr las pruebas de ese proyecto (una carpeta fuera del repo,
