@@ -1,0 +1,12 @@
+{
+  "name": "testing-playwright-skill",
+  "owner": { "name": "k-vladimirloza" },
+  "description": "Marketplace con la skill playwright-ai-testing: convierte flujos web descritos en lenguaje natural en pruebas Playwright repetibles.",
+  "plugins": [
+    {
+      "name": "playwright-ai-testing",
+      "source": "./",
+      "description": "Convierte instrucciones en lenguaje natural sobre un flujo web en pruebas Playwright repetibles, sin tocar el repo del producto."
+    }
+  ]
+}

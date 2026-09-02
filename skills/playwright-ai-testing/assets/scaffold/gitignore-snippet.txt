@@ -1,0 +1,11 @@
+# --- playwright-ai-testing ---
+playwright-report/
+test-results/
+blob-report/
+test-output/
+
+# Sesiones, perfiles y autenticacion (pueden contener secretos)
+auth/
+user-data/
+*.auth.json
+auth.json

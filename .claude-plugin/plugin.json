@@ -1,0 +1,6 @@
+{
+  "name": "playwright-ai-testing",
+  "description": "Convierte instrucciones en lenguaje natural sobre un flujo web en pruebas Playwright repetibles, explorando con el MCP de Playwright y sin tocar el repo del producto.",
+  "version": "1.0.0",
+  "author": { "name": "k-vladimirloza" }
+}
