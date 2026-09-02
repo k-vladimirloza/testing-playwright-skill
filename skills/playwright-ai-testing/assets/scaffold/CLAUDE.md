@@ -38,9 +38,14 @@ Si varias pruebas necesitan la misma precondición (típicamente login), no
 la repitas en cada spec — usa sesión guardada de Playwright:
 
 - Revisa `tests/support/` antes de crear un helper nuevo.
-- Un helper vive como `tests/support/<nombre>.setup.ts`: hace login una
-  sola vez y guarda la sesión (`storageState`) en
-  `tests/support/auth/<usuario>.json` (ignorado por Git).
+- Genéralo a partir de `tests/support/login.setup.template.ts`: cópialo a
+  `tests/support/<usuario>.setup.ts` y rellena los `TODO` con lo real
+  (URL de login, locators, cómo confirmar que el login funcionó). Guarda
+  la sesión (`storageState`) en `tests/support/auth/<usuario>.json`
+  (ignorado por Git).
+- Conéctalo a `playwright.config.ts` (proyecto `setup` +
+  `dependencies: ['setup']`) siguiendo `tests/support/README.md` — solo
+  la primera vez que ese usuario/rol lo necesita.
 - Las pruebas la reutilizan con
   `test.use({ storageState: 'tests/support/auth/<usuario>.json' })`.
 - Credenciales solo desde variables de entorno (`.env`, ignorado) o login

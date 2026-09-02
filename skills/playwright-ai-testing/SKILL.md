@@ -72,7 +72,8 @@ escritura, no sobre navegación ni lectura.
      producto), solo lo que falte — nunca sobrescribas algo que ya
      existe de una sesión anterior: `assets/scaffold/tests/generated/INDEX.md`,
      `assets/scaffold/tests/generated/.gitkeep`,
-     `assets/scaffold/tests/support/README.md`, y
+     `assets/scaffold/tests/support/README.md`,
+     `assets/scaffold/tests/support/login.setup.template.ts`, y
      `assets/scaffold/playwright.config.ts` si no existe uno ya (ajusta
      `testDir`/`baseURL` a la web real que se va a probar).
    - Agrega las líneas de `assets/scaffold/gitignore-snippet.txt` al
@@ -235,14 +236,26 @@ la sección 5, todo esto vive dentro del workspace de pruebas, no del
 repo del producto:
 
 - Antes de crear un helper nuevo, revisa si ya existe uno en
-  `tests/support/` que sirva.
-- Un helper de login vive como `tests/support/<nombre>.setup.ts`: hace el
-  login una sola vez y guarda la sesión resultante (`storageState` de
-  Playwright) en `tests/support/auth/<usuario>.json` — ese archivo debe
-  quedar ignorado por Git porque puede contener tokens de sesión.
+  `tests/support/` que sirva (mismo usuario/rol, misma web).
+- **Cómo generarlo:** copia
+  `assets/scaffold/tests/support/login.setup.template.ts` a
+  `tests/support/<usuario>.setup.ts`. Rellena los `TODO` con lo que
+  encontraste al explorar la pantalla de login real (URL, locators por
+  rol/label/placeholder/data-testid, algo que confirme login exitoso) —
+  nunca lo dejes con placeholders sin completar. El helper guarda la
+  sesión (`storageState` de Playwright) en
+  `tests/support/auth/<usuario>.json` — ese archivo debe quedar ignorado
+  por Git porque puede contener tokens de sesión.
+- **Conéctalo a `playwright.config.ts`:** sigue la sección "Conectar un
+  helper de login" de `tests/support/README.md` (proyecto `setup` +
+  `dependencies: ['setup']` + `storageState` en el proyecto principal).
+  Hazlo solo la primera vez que ese usuario/rol necesita login — si ya
+  está conectado, no lo dupliques.
 - Las pruebas generadas que necesiten esa sesión la reutilizan con
   `test.use({ storageState: 'tests/support/auth/<usuario>.json' })` en
-  vez de repetir clicks de login en cada archivo.
+  vez de repetir clicks de login en cada archivo (redundante si ya la
+  heredan del proyecto en `playwright.config.ts`, pero explícito si una
+  prueba puntual necesita otra sesión).
 - El helper nunca escribe credenciales en el código: las toma de
   variables de entorno (`.env`, ignorado) o depende de que el usuario
   haga login manual una vez para capturar la sesión.

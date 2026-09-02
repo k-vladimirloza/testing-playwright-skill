@@ -69,7 +69,8 @@ skills/playwright-ai-testing/
   assets/scaffold/                  plantillas que se copian al workspace de pruebas
     tests/generated/INDEX.md        indice vacio de pruebas
     tests/generated/.gitkeep
-    tests/support/README.md         explica la convencion de helpers
+    tests/support/README.md         explica la convencion de helpers + como conectar login a playwright.config.ts
+    tests/support/login.setup.template.ts  plantilla de helper de login (storageState)
     playwright.config.ts            config por defecto si el workspace no tiene una
     gitignore-snippet.txt           lineas a agregar al .gitignore del workspace
     CLAUDE.md                       instrucciones del workspace (que proyecto prueba, convenciones, correr sin el agente)
