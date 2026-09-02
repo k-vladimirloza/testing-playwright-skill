@@ -237,6 +237,25 @@ repo del producto:
 
 - Antes de crear un helper nuevo, revisa si ya existe uno en
   `tests/support/` que sirva (mismo usuario/rol, misma web).
+- **Pide las credenciales tú mismo, en lenguaje simple — no esperes que
+  el usuario sepa decir "variable de entorno".** Cuando detectes que el
+  flujo necesita login y todavía no tienes con qué, guíalo así:
+  1. Explica en una frase por qué hace falta: "Para no tener que iniciar
+     sesión a mano cada vez, necesito una cuenta de prueba: su correo y
+     su contraseña."
+  2. Pide una **cuenta de prueba, no la cuenta real del usuario** (regla
+     de seguridad de la sección 7) — si no tiene una, ayúdalo a crear una
+     antes de seguir.
+  3. Aclara dónde queda eso: "Se guarda solo en tu equipo, en un archivo
+     `.env` dentro de la carpeta de pruebas — no se sube a ningún lado
+     ni se comparte con nadie."
+  4. Con la respuesta, escribe (o agrega si ya existe) en
+     `<workspace>/.env`: `TEST_USER_EMAIL=...`, `TEST_USER_PASSWORD=...`
+     y `LOGIN_URL=...` si aún no la tienes — los mismos nombres que usa
+     `login.setup.template.ts`. Nunca los repitas de vuelta en el chat
+     una vez guardados (ni la contraseña en ningún reporte o log).
+  5. Confirma `.env` en el `.gitignore` de ese workspace (ya viene del
+     andamiaje) antes de seguir.
 - **Cómo generarlo:** copia
   `assets/scaffold/tests/support/login.setup.template.ts` a
   `tests/support/<usuario>.setup.ts`. Rellena los `TODO` con lo que

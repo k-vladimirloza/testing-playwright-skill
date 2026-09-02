@@ -9,3 +9,5 @@ auth/
 user-data/
 *.auth.json
 auth.json
+.env
+.env.*

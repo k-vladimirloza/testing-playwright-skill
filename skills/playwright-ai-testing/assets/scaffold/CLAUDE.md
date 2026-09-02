@@ -38,6 +38,10 @@ Si varias pruebas necesitan la misma precondición (típicamente login), no
 la repitas en cada spec — usa sesión guardada de Playwright:
 
 - Revisa `tests/support/` antes de crear un helper nuevo.
+- Si falta una cuenta de prueba, pídesela al usuario en lenguaje simple
+  (nunca asumas que sabe qué es una "variable de entorno") y guárdala en
+  `.env` de esta carpeta (`TEST_USER_EMAIL`, `TEST_USER_PASSWORD`,
+  `LOGIN_URL`) — `.env` ya está en `.gitignore`, nunca se sube.
 - Genéralo a partir de `tests/support/login.setup.template.ts`: cópialo a
   `tests/support/<usuario>.setup.ts` y rellena los `TODO` con lo real
   (URL de login, locators, cómo confirmar que el login funcionó). Guarda
