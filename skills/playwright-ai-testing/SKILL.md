@@ -100,7 +100,10 @@ escritura, no sobre navegación ni lectura.
    de sesiones anteriores) y trátalo como instrucciones del workspace,
    aunque la sesión no se haya abierto dentro de esa carpeta y Claude Code
    no lo haya cargado solo. Ahí están el proyecto que se prueba, el
-   `BASE_URL` y las convenciones acordadas antes.
+   `BASE_URL` y las convenciones acordadas antes. Lee también
+   `<ruta>/tests/generated/INDEX.md` para saber qué pruebas ya existen:
+   evita duplicar una que ya cubre el flujo pedido y respóndele al
+   usuario, en lenguaje simple, si pregunta qué pruebas tiene.
 6. Todo comando de la sección 1 (generar, ejecutar, reportar) corre
    **desde esa carpeta**, nunca desde el repo del producto.
 
