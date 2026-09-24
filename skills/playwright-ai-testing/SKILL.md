@@ -67,7 +67,9 @@ escritura, no sobre navegación ni lectura.
    existe):
    - Si no tiene ya `package.json` con `@playwright/test`, inicialízalo
      ahí — nunca en el repo del producto:
-     `npm init -y && npm install -D @playwright/test && npx playwright install chromium`.
+     `npm init -y && npm install -D @playwright/test dotenv && npx playwright install chromium`.
+     Si ya tiene `package.json` pero le falta `dotenv`, instálalo también
+     (`npm install -D dotenv`).
    - Copia el andamiaje de esta skill a esa carpeta (no al repo del
      producto), solo lo que falte — nunca sobrescribas algo que ya
      existe de una sesión anterior: `assets/scaffold/tests/generated/INDEX.md`,
@@ -75,7 +77,13 @@ escritura, no sobre navegación ni lectura.
      `assets/scaffold/tests/support/README.md`,
      `assets/scaffold/tests/support/login.setup.template.ts`, y
      `assets/scaffold/playwright.config.ts` si no existe uno ya (ajusta
-     `testDir`/`baseURL` a la web real que se va a probar).
+     `testDir`/`baseURL` a la web real que se va a probar). Si el
+     `playwright.config.ts` que ya existe no tiene `import 'dotenv/config';`
+     arriba, agrégalo: sin eso `baseURL` no lee el `.env` y
+     `npx playwright test` a secas falla por no saber la URL.
+   - Asegura `BASE_URL=<url base de la web a probar>` en `<workspace>/.env`
+     (créalo o agrégala si falta; no es un secreto, pero vive ahí para que
+     el comando de la sección 8 funcione sin parámetros extra).
    - Agrega las líneas de `assets/scaffold/gitignore-snippet.txt` al
      `.gitignore` de ese workspace (no del repo del producto).
    - Copia `assets/scaffold/CLAUDE.md` a la raíz de ese workspace **solo
@@ -85,8 +93,15 @@ escritura, no sobre navegación ni lectura.
      sin preguntarte a ti.
 4. Confirma en una frase simple: "Voy a guardar y correr las pruebas
    desde '<ruta>' — tu proyecto no se toca. Ahí dejé un `CLAUDE.md` que
-   explica esta carpeta si alguien más la abre."
-5. Todo comando de la sección 1 (generar, ejecutar, reportar) corre
+   explica esta carpeta si alguien más la abre." No hace falta que el
+   usuario abra Claude Code dentro de esa carpeta: la sesión puede estar
+   en cualquier lado, tú trabajas en `<ruta>` de todos modos.
+5. **Lee `<ruta>/CLAUDE.md`** (el que acabas de copiar o el que ya había
+   de sesiones anteriores) y trátalo como instrucciones del workspace,
+   aunque la sesión no se haya abierto dentro de esa carpeta y Claude Code
+   no lo haya cargado solo. Ahí están el proyecto que se prueba, el
+   `BASE_URL` y las convenciones acordadas antes.
+6. Todo comando de la sección 1 (generar, ejecutar, reportar) corre
    **desde esa carpeta**, nunca desde el repo del producto.
 
 ## 1. Flujo obligatorio
@@ -114,7 +129,9 @@ escritura, no sobre navegación ni lectura.
    entorno probado.
 8. Reporta: componentes identificados, archivo creado, pasos ejecutados
    realmente, pasos no ejecutados por seguridad, resultado y evidencia —
-   en el lenguaje llano de la sección 2.
+   en el lenguaje llano de la sección 2. Cuando hayas guardado una
+   prueba, cierra con el bloque "cómo correrla tú sin el agente" de la
+   sección 8.
 
 ### Separación entre explorar y ejecutar
 
@@ -296,3 +313,30 @@ repo del producto:
   explica el punto exacto.
 - No modifiques la aplicación bajo prueba; esta skill solo genera y
   ejecuta pruebas sobre ella.
+
+## 8. Cómo correr las pruebas sin el agente
+
+Las pruebas guardadas son archivos normales de Playwright: el usuario las
+puede correr solo, sin Claude Code y sin abrir la sesión en el workspace.
+Dale este bloque **cada vez que guardes una prueba** y también cuando
+pregunte cómo correrlas, repetirlas o verlas él mismo. Responde con la
+ruta real del workspace (no con `<ruta>`) y en lenguaje llano (sección 2):
+
+1. Antes de escribirlo, revisa que `<workspace>/.env` tenga `BASE_URL` y
+   que `playwright.config.ts` empiece con `import 'dotenv/config';`
+   (sección 0, paso 3). Si falta algo, arréglalo tú primero.
+2. Dile qué hacer, en este orden:
+   - "Abre una terminal y entra a la carpeta de pruebas:
+     `cd <ruta-real>`"
+   - "Corre todas las pruebas: `npx playwright test`"
+   - "Solo una: `npx playwright test tests/generated/<nombre>.spec.ts`"
+   - "Verla en pantalla mientras corre: agrega `--headed` (abre el
+     navegador visible)."
+   - "Ver el reporte con capturas: `npx playwright show-report`"
+3. Si el `.env` no tiene `BASE_URL` y no puedes arreglarlo, el comando es
+   `BASE_URL=<url> npx playwright test`.
+4. Recuérdale, si aplica, que las pruebas corren contra el entorno real
+   (`BASE_URL`), así que usen la cuenta de prueba y no datos reales.
+5. Si una prueba falla por sesión vencida, explícale que hay que volver a
+   correr el helper de login (`tests/support/README.md`) antes de
+   reintentar.

@@ -1,3 +1,5 @@
+// Carga .env (BASE_URL, credenciales de prueba) antes de leer process.env.
+import 'dotenv/config';
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({

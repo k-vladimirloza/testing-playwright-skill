@@ -57,7 +57,15 @@ la repitas en cada spec — usa sesión guardada de Playwright:
 
 ## Correr las pruebas sin el agente
 
-- `BASE_URL=<url> npx playwright test` desde esta carpeta.
+Desde esta carpeta (no hace falta abrir Claude Code):
+
+- `npx playwright test` — todas las pruebas. Toma `BASE_URL` y las
+  credenciales de prueba del `.env` de esta carpeta (el
+  `playwright.config.ts` lo carga con `import 'dotenv/config'`). Si el
+  `.env` no tuviera `BASE_URL`: `BASE_URL=<url> npx playwright test`.
+- `npx playwright test tests/generated/<nombre>.spec.ts` — solo una.
+- Agrega `--headed` para ver el navegador mientras corre.
+- `npx playwright show-report` — abre el reporte HTML con capturas.
 - Si falla por sesión vencida, vuelve a correr el helper de login
   correspondiente (ver `tests/support/README.md`) antes de reintentar.
 - Los nombres de `test(...)` y los mensajes de `expect(...)` están en
