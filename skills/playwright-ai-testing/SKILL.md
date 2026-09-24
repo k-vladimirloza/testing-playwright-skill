@@ -83,7 +83,9 @@ escritura, no sobre navegación ni lectura.
      `npx playwright test` a secas falla por no saber la URL.
    - Asegura `BASE_URL=<url base de la web a probar>` en `<workspace>/.env`
      (créalo o agrégala si falta; no es un secreto, pero vive ahí para que
-     el comando de la sección 8 funcione sin parámetros extra).
+     el comando de la sección 8 funcione sin parámetros extra). Sigue la
+     regla del `.env` de la sección 7: no leas su contenido para saber si
+     ya está; comprueba solo el nombre de la variable.
    - Agrega las líneas de `assets/scaffold/gitignore-snippet.txt` al
      `.gitignore` de ese workspace (no del repo del producto).
    - Copia `assets/scaffold/CLAUDE.md` a la raíz de ese workspace **solo
@@ -115,7 +117,10 @@ escritura, no sobre navegación ni lectura.
 2. Si falta un dato no sensible, intenta descubrirlo explorando la
    interfaz. Si falta autorización para una acción con efectos reales,
    detente antes de esa acción y pregunta.
-3. Abre la web con el MCP de Playwright (sección 3). No visites dominios
+3. **Por defecto el navegador se muestra** (`--headed`); el usuario puede
+   apagarlo o prenderlo cuando quiera (sección "Ver el navegador o en
+   segundo plano" más abajo). Abre la web con el MCP de Playwright
+   (sección 3). No visites dominios
    distintos salvo navegación normal del flujo o autorización explícita.
 4. Explora paso a paso con snapshots. Identifica cada componente por rol
    accesible, nombre, label, placeholder o `data-testid`. Las referencias
@@ -135,6 +140,35 @@ escritura, no sobre navegación ni lectura.
    en el lenguaje llano de la sección 2. Cuando hayas guardado una
    prueba, cierra con el bloque "cómo correrla tú sin el agente" de la
    sección 8.
+
+### Ver el navegador o en segundo plano
+
+Playwright puede abrir el navegador con ventana visible (bandera
+`--headed`) o sin ventana, en segundo plano (`headless`, que es el modo
+por defecto de `npx playwright test` a secas). **Por defecto, esta skill
+lo muestra**: el usuario ve cada clic y cada paso. Apagarlo o prenderlo es
+decisión suya, en cualquier momento.
+
+- **No preguntes nada al inicio.** En la primera apertura del navegador
+  avísale en una frase, en lenguaje simple y sin esos términos: "Voy a
+  abrir el navegador para que veas cada paso; si prefieres que lo haga en
+  segundo plano (sin ventana, más rápido), dímelo."
+- **Por defecto (visible):** explora con `playwright-cli open <url>
+  --headed` y corre las pruebas guardadas con
+  `npx playwright test <archivo> --headed`. Con el MCP de Playwright, si
+  la ventana no se abre porque el MCP está configurado sin ventana, dile
+  en una frase y usa `playwright-cli` con `--headed` en su lugar.
+- **Si pide apagarlo** ("hazlo sin abrir nada", "en segundo plano"): usa
+  `playwright-cli open <url>` sin `--headed` y `npx playwright test
+  <archivo>` sin la bandera, y apóyate en capturas de pantalla para
+  mostrarle qué pasó. Si después pide volver a verlo, vuelve a usar
+  `--headed`.
+- La elección vale para el resto de la conversación, hasta que la cambie;
+  no la repreguntes.
+- Elegir "segundo plano" no cambia las reglas de seguridad ni las
+  confirmaciones antes de acciones con efectos reales.
+- En el bloque de la sección 8 dale ambos comandos (con y sin `--headed`)
+  para cuando corra las pruebas por su cuenta.
 
 ### Separación entre explorar y ejecutar
 
@@ -185,7 +219,8 @@ preferencia:
    del flujo obligatorio para identificar botones, campos y textos por
    rol accesible, label o `data-testid`.
 2. Si el MCP no está disponible, el **cliente global** `playwright-cli`
-   instalado en el paso 0 (`playwright-cli open <url> --headed`,
+   instalado en el paso 0 (`playwright-cli open <url> --headed`, sin
+   `--headed` solo si el usuario pidió segundo plano,
    `type`, `press`, `snapshot`, `screenshot`, `close`). Es el mismo
    binario para todos los proyectos — no requiere nada por proyecto.
    Usa una sesión nombrada por proyecto para no mezclar pestañas de
@@ -270,7 +305,8 @@ repo del producto:
      `.env` dentro de la carpeta de pruebas — no se sube a ningún lado
      ni se comparte con nadie."
   4. Con la respuesta, escribe (o agrega si ya existe) en
-     `<workspace>/.env`: `TEST_USER_EMAIL=...`, `TEST_USER_PASSWORD=...`
+     `<workspace>/.env` (solo añadiendo líneas, sin leer lo que ya tiene;
+     regla del `.env` de la sección 7): `TEST_USER_EMAIL=...`, `TEST_USER_PASSWORD=...`
      y `LOGIN_URL=...` si aún no la tienes — los mismos nombres que usa
      `login.setup.template.ts`. Nunca los repitas de vuelta en el chat
      una vez guardados (ni la contraseña en ningún reporte o log).
@@ -303,6 +339,20 @@ repo del producto:
 
 ## 7. Reglas de seguridad
 
+- **Regla del `.env`: no lo leas sin permiso del usuario.** Ni el `.env`
+  del workspace ni ningún `.env*` (`.env.local`, etc.) ni los archivos de
+  sesión `tests/support/auth/*.json` se abren, muestran ni se citan en el
+  chat: no uses Read, `cat`, `head`, `grep` con salida ni nada que
+  imprima su contenido. Si crees que necesitas leerlo (por ejemplo para
+  depurar por qué falla un login), pídele permiso en lenguaje simple
+  ("Para revisar esto necesito mirar tu archivo `.env`, donde están tus
+  credenciales de prueba, ¿me dejas leerlo?") y espera un sí explícito;
+  el permiso vale solo para esa lectura, no para el resto de la
+  conversación. Sin permiso solo puedes: (a) **añadir** líneas al final,
+  y (b) comprobar si existe una variable por su nombre sin mostrar
+  valores (`grep -q '^NOMBRE=' .env`). Nunca repitas valores en el chat,
+  en reportes ni en logs, aun con permiso. Correr `npx playwright test`
+  no cuenta como leerlo: las pruebas lo cargan por su cuenta.
 - No ejecutes compras, publicaciones, envíos, eliminaciones ni cambios
   irreversibles sin autorización explícita.
 - Empieza en modo de observación y ejecuta mutaciones solo cuando formen
@@ -325,8 +375,9 @@ Dale este bloque **cada vez que guardes una prueba** y también cuando
 pregunte cómo correrlas, repetirlas o verlas él mismo. Responde con la
 ruta real del workspace (no con `<ruta>`) y en lenguaje llano (sección 2):
 
-1. Antes de escribirlo, revisa que `<workspace>/.env` tenga `BASE_URL` y
-   que `playwright.config.ts` empiece con `import 'dotenv/config';`
+1. Antes de escribirlo, revisa que `<workspace>/.env` tenga `BASE_URL`
+   (solo el nombre de la variable, sin leer valores; regla del `.env` de
+   la sección 7) y que `playwright.config.ts` empiece con `import 'dotenv/config';`
    (sección 0, paso 3). Si falta algo, arréglalo tú primero.
 2. Dile qué hacer, en este orden:
    - "Abre una terminal y entra a la carpeta de pruebas:

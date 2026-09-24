@@ -74,6 +74,12 @@ Desde esta carpeta (no hace falta abrir Claude Code):
 
 ## Reglas de seguridad
 
+- **No leas el `.env` sin permiso del usuario** (ni ningún `.env*` ni
+  `tests/support/auth/*.json`): no lo abras, muestres ni cites. Si de
+  verdad hace falta mirarlo, pide permiso en lenguaje simple y espera un
+  sí explícito, válido solo para esa lectura. Sin permiso solo puedes
+  añadir líneas al final o comprobar si existe una variable por su
+  nombre (`grep -q '^NOMBRE=' .env`). Nunca repitas valores en el chat.
 - No ejecutes compras, publicaciones, envíos, eliminaciones ni cambios
   irreversibles sin autorización explícita.
 - No uses datos reales de clientes; usa cuentas y datos de prueba
