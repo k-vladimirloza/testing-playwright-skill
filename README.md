@@ -8,6 +8,22 @@ persona que no programa.
 Este repo es a la vez el **plugin** y su propio **marketplace** — se
 instala directo desde GitHub, no hace falta copiar carpetas a mano.
 
+## Requisitos
+
+- **Node.js y npm** en la máquina. La skill los usa para preparar el
+  workspace de pruebas (`@playwright/test` y Chromium) y para correr las
+  pruebas con `npx playwright test`.
+- **Un cliente de exploración**, basta con uno de los dos:
+  - **MCP de Playwright** (preferido): la skill lo usa primero, pero
+    **no lo instala**; debes tenerlo configurado tú en Claude Code.
+  - **`playwright-cli`** (alternativa si no hay MCP): la skill lo
+    comprueba en el paso 0 y, si falta, lo instala una sola vez con
+    `npm install -g @playwright/cli@latest`.
+
+Ambos clientes solo sirven para explorar la interfaz. Las pruebas
+guardadas se ejecutan siempre con `npx playwright test <archivo>`, sin
+MCP ni CLI.
+
 ## Instalar
 
 Dentro de Claude Code (terminal o extensión de VS Code, es el mismo
